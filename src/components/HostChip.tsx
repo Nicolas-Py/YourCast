@@ -17,7 +17,7 @@ const HostChip = ({ host, isSelected, onClick }: HostChipProps) => {
     <button
       onClick={onClick}
       className={`flex items-center gap-2 px-2 py-1 rounded-full border transition-all duration-300 hover:border-purple-500 ${
-        isSelected ? 'w-10 border-purple-500 bg-purple-50' : 'w-auto border-gray-200 hover:bg-purple-50'
+        isSelected ? 'border-purple-500 bg-purple-50' : 'border-gray-200 hover:bg-purple-50'
       }`}
     >
       <Avatar className="w-8 h-8">
@@ -26,7 +26,7 @@ const HostChip = ({ host, isSelected, onClick }: HostChipProps) => {
           <Circle className="h-4 w-4 text-gray-300" />
         </AvatarFallback>
       </Avatar>
-      <span className={`transition-opacity duration-300 ${isSelected ? 'opacity-0 w-0' : 'opacity-100'}`}>
+      <span>
         {host.name}
       </span>
     </button>

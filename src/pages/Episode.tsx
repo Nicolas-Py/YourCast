@@ -1,7 +1,7 @@
-
 import { useParams } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { BookmarkPlus } from "lucide-react";
+import { Link } from "react-router-dom";
 
 const Episode = () => {
   const { id } = useParams();
@@ -38,7 +38,9 @@ const Episode = () => {
             <div>
               <h1 className="text-3xl font-bold text-gray-900 mb-2">{episode.title}</h1>
               <p className="text-blue-600 hover:text-blue-800">
-                {episode.host}
+                <Link to={`/host/${episode.hostId}`} className="hover:underline">
+                  {episode.host}
+                </Link>
               </p>
               <p className="text-gray-500 text-sm">{new Date(episode.date).toLocaleDateString()}</p>
             </div>
@@ -49,7 +51,7 @@ const Episode = () => {
           </div>
 
           <div className="mb-8">
-            <h2 className="text-xl font-semibold mb-3">AI Summary</h2>
+            <h2 className="text-xl font-semibold mb-3">Summary</h2>
             <p className="text-gray-700 leading-relaxed">{episode.aiSummary}</p>
           </div>
 
