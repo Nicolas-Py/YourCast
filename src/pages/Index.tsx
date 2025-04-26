@@ -3,7 +3,7 @@ import { useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import EpisodeCard from "@/components/EpisodeCard";
-import HostChip from "@/components/HostChip";
+import HostChipsContainer from "@/components/HostChipsContainer";
 import EpisodeSelectionDialog from "@/components/EpisodeSelectionDialog";
 import DynamicHeadline from "@/components/DynamicHeadline";
 
@@ -26,6 +26,56 @@ const Index = () => {
       name: "Entrepreneur Daily",
       image: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158",
     },
+    {
+      id: "marketing2025",
+      name: "Marketing Insights 2025",
+      image: "https://images.unsplash.com/photo-1551434678-e076c223a692",
+    },
+    {
+      id: "aiweekly",
+      name: "AI Weekly Digest",
+      image: "https://images.unsplash.com/photo-1516321318423-f06f85e504b3",
+    },
+    {
+      id: "startupstories",
+      name: "Startup Success Stories",
+      image: "https://images.unsplash.com/photo-1522071820081-009f0129c71c",
+    },
+    {
+      id: "futuretech",
+      name: "Future Tech Today",
+      image: "https://images.unsplash.com/photo-1518770660439-4636190af475",
+    },
+    {
+      id: "businessinsights",
+      name: "Business Insights Daily",
+      image: "https://images.unsplash.com/photo-1552664730-d307ca884978",
+    },
+    {
+      id: "digitalnomad",
+      name: "Digital Nomad Life",
+      image: "https://images.unsplash.com/photo-1507679799987-c73779587ccf",
+    },
+    {
+      id: "productivity",
+      name: "Productivity Hacks",
+      image: "https://images.unsplash.com/photo-1516321497487-e288fb19713f",
+    },
+    {
+      id: "innovation",
+      name: "Innovation Station",
+      image: "https://images.unsplash.com/photo-1504384308090-c894fdcc538d",
+    },
+    {
+      id: "leadership",
+      name: "Leadership Lessons",
+      image: "https://images.unsplash.com/photo-1543269865-cbf427effbad",
+    },
+    {
+      id: "remotework",
+      name: "Remote Work Revolution",
+      image: "https://images.unsplash.com/photo-1516321318423-f06f85e504b3",
+    }
   ];
 
   const episodes = [
@@ -139,12 +189,11 @@ const Index = () => {
             <div className="relative flex-1">
               <Input
                 type="text"
-                placeholder="Search episodes..."
+                placeholder="What are you interested in?"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full pl-10 pr-4 py-2 text-gray-900 rounded-lg border-2 border-black-400 transition-all duration-300 ease-in-out focus:ring-2 focus:ring-primary focus:ring-opacity-50 focus:border-transparent focus:animate-pulse"
+                className="w-full pl-10 pr-4 py-2 text-gray-900 rounded-lg border-2 border-black-400 transition-all duration-300 ease-in-out focus:ring-2 focus:ring-primary focus:ring-opacity-50 focus:border-transparent"
               />
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-black-400 h-6 w-6" />
             </div>
             <div className="flex gap-2 transition-all duration-300">
               {!isSelectionMode ? (
@@ -179,16 +228,11 @@ const Index = () => {
               )}
             </div>
           </div>
-          <div className="flex flex-wrap gap-2">
-            {hosts.map((host) => (
-              <HostChip
-                key={host.id}
-                host={host}
-                isSelected={selectedHosts.includes(host.id)}
-                onClick={() => toggleHost(host.id)}
-              />
-            ))}
-          </div>
+          <HostChipsContainer
+            hosts={hosts}
+            selectedHosts={selectedHosts}
+            onHostToggle={toggleHost}
+          />
         </div>
       </div>
 
