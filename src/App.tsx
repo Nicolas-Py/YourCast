@@ -1,4 +1,3 @@
-
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -8,6 +7,7 @@ import Navbar from "./components/Navbar";
 import Index from "./pages/Index";
 import Episode from "./pages/Episode";
 import Host from "./pages/Host";
+import CustomEpisode from "./pages/CustomEpisode";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -23,6 +23,7 @@ const App = () => (
           <Route path="/" element={<Index />} />
           <Route path="/episode/:id" element={<Episode />} />
           <Route path="/host/:id" element={<Host />} />
+          <Route path="/custom-episode/:id" element={<CustomEpisode />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>
