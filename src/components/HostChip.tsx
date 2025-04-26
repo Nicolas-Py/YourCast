@@ -15,7 +15,7 @@ const HostChip = ({ host, isSelected, onClick }: HostChipProps) => {
   return (
     <button
       onClick={onClick}
-      className={`flex items-center gap-2 px-2 py-1 rounded-full border border-black transition-all duration-300 
+      className={`flex items-center gap-2 px-2 py-1 rounded-full border-2 border-black transition-all duration-300 
         ${isSelected ? 'bg-card' : 'hover:bg-card'}`}
     >
       <Avatar className="w-8 h-8">
