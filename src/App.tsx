@@ -7,6 +7,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import Index from "./pages/Index";
 import Episode from "./pages/Episode";
+import Host from "./pages/Host";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -21,6 +22,7 @@ const App = () => (
         <Routes>
           <Route path="/" element={<Index />} />
           <Route path="/episode/:id" element={<Episode />} />
+          <Route path="/host/:id" element={<Host />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>
