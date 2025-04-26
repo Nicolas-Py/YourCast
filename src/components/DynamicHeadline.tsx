@@ -24,7 +24,7 @@ const DynamicHeadline = () => {
       timeout = setTimeout(() => {
         setIsPaused(false);
         setIsDeleting(true);
-      }, 6000);
+      }, 12000);
     } else if (!isDeleting) {
       if (currentIndex < currentWord.length) {
         timeout = setTimeout(() => {

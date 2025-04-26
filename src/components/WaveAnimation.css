@@ -24,7 +24,7 @@
 }
 
 .wave-container.animate #wave {
-  animation: moveWave 60s linear infinite;
+  animation: moveWave 20s linear infinite;
 }
 
 @keyframes moveWave {

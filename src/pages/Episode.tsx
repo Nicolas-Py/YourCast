@@ -65,7 +65,7 @@ const Episode = () => {
           />
           <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
           <div className="absolute bottom-0 left-0 right-0 p-6 text-white">
-            <h1 className="text-4xl font-bold mb-2">{episode.title}</h1>
+            <h1 className="text-4xl font-bold mb-2  serif-headline">{episode.title}</h1>
             <p className="text-blue-200 hover:text-blue-100">
               <Link to={`/host/${episode.hostId}`} className="hover:underline">
                 {episode.host}
@@ -76,23 +76,16 @@ const Episode = () => {
         </div>
 
         <div className="p-6">
-          <div className="flex justify-end mb-8">
-            <Button variant="outline" className="flex items-center gap-2">
-              <BookmarkPlus className="h-5 w-5" />
-              Save Episode
-            </Button>
-          </div>
-
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {/* Left Column */}
             <div className="md:col-span-2">
               <div className="mb-8">
-                <h2 className="text-xl font-semibold mb-3">Episode Summary</h2>
+                <h2 className="text-xl font-semibold mb-3 serif-headline">Episode Summary</h2>
                 <p className="text-gray-700 leading-relaxed">{episode.aiSummary}</p>
               </div>
 
               <div>
-                <h2 className="text-xl font-semibold mb-3">Key Takeaways</h2>
+                <h2 className="text-xl font-semibold mb-3 serif-headline">Key Takeaways</h2>
                 <ul className="list-disc pl-5 space-y-2">
                   {episode.bulletPoints.map((point, index) => (
                     <li key={index} className="text-gray-700">{point}</li>
@@ -104,7 +97,7 @@ const Episode = () => {
             {/* Right Column */}
             <div className="space-y-8">
               <div>
-                <h2 className="text-xl font-semibold mb-3">Listen On</h2>
+                <h2 className="text-xl font-semibold mb-3 serif-headline">Listen On</h2>
                 <div className="flex gap-4">
                   <a href={episode.platformLinks.spotify} target="_blank" rel="noopener noreferrer" className="hover:text-green-500">
                     <SpotifyIcon />
@@ -116,8 +109,8 @@ const Episode = () => {
               </div>
 
               <div>
-                <h2 className="text-xl font-semibold mb-3">Category</h2>
-                <span className="inline-block bg-blue-100 text-blue-800 px-4 py-2 rounded-full text-sm font-medium">
+                <h2 className="text-xl font-semibold mb-3 serif-headline">Category</h2>
+                <span className="inline-block border-2 border-black px-4 py-2 rounded-full text-sm font-medium">
                   {episode.category}
                 </span>
               </div>
@@ -126,7 +119,7 @@ const Episode = () => {
 
           {/* Similar Episodes Section */}
           <div className="mt-12">
-            <h2 className="text-2xl font-semibold mb-6">Similar Episodes</h2>
+            <h2 className="text-2xl font-semibold mb-6 serif-headline">Similar Episodes</h2>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               {episode.similarEpisodes.map((similar) => (
                 <Link 
