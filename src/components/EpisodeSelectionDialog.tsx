@@ -38,7 +38,7 @@ const EpisodeSelectionDialog = ({ isOpen, onClose, onConfirm, selectedCount }: E
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="sm:max-w-md">
         <DialogHeader className="relative min-h-[200px]">
-          <div className="absolute inset-0 overflow-hidden -mx-6">
+        <div className="absolute inset-0 overflow-hidden -mx-6">
             <WaveAnimation 
               isAnimating={isAnimating}
               currentWaveIndex={waveIndex}
@@ -146,6 +146,7 @@ const EpisodeSelectionDialog = ({ isOpen, onClose, onConfirm, selectedCount }: E
             <Check className="mr-2 h-4 w-4" />
             Generate Audio
           </Button>
+          
         </DialogFooter>
       </DialogContent>
     </Dialog>

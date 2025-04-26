@@ -25,10 +25,11 @@
 }
 
 .wave-container.animate #wave {
-  animation: moveWave 10s linear infinite;
+  animation: moveWave 60s linear infinite;
 }
 
 @keyframes moveWave {
   0% { transform: translateX(0); }
-  100% { transform: translateX(-50%); }
+  50% { transform: translateX(-50%); }
+  100% { transform: translateX(0); }
 } 
