@@ -38,10 +38,10 @@ const Index = () => {
       summary: "A fascinating discussion about artificial intelligence and its impact on society.",
       date: "2025-04-20",
       keyTakeaways: [
-        "AI will transform healthcare through personalized medicine",
-        "Ethical considerations must guide AI development",
-        "The importance of human-AI collaboration in the workplace",
-        "Future job market shifts due to AI automation"
+        "Unexpected challenges led Isaac French from a suspended listing to a $7 million exit after a $2.3 million investment! *(0.0 sec)*",
+        "Isaac grew his social media from 5,000 to 150,000 followers, driving 80% of bookings for his micro-resort! *(22.7 sec)*",
+        "With compelling stories on Twitter, Isaac's content reached 100 million views, showcasing storytelling's power! *(37.9 sec)*",
+        "Learn the 'secret sauce' of virality—maximize shareability in your storytelling to boost brand outreach! *(58.2 sec)*"
       ]
     },
     {
@@ -53,10 +53,10 @@ const Index = () => {
       summary: "Learn from successful entrepreneurs about their journey to the top.",
       date: "2025-04-19",
       keyTakeaways: [
-        "The importance of building a strong founding team",
-        "How to validate your business idea effectively",
-        "Strategies for securing early-stage funding",
-        "Building a sustainable company culture"
+        "Building businesses with family creates trust and shared goals, multiplying success beyond what individuals can achieve! *(512.1 sec)*",
+        "The family refurbished historic buildings in Deary, creating community spaces that reflect shared investment and pride! *(366.2 sec)*",
+        "Surround yourself with like-minded individuals for support; community fuels resilience and growth in entrepreneurship! *(4194.8 sec)*",
+        "Isaac's transparency in storytelling builds audience bonds, sharing both triumphs and trials from his entrepreneurial journey! *(3405.0 sec)*"
       ]
     },
     {
@@ -68,10 +68,10 @@ const Index = () => {
       summary: "Exploring the latest trends and strategies in digital marketing.",
       date: "2025-04-18",
       keyTakeaways: [
-        "The rise of AI-powered content creation",
-        "Importance of privacy-first marketing strategies",
-        "Video content continues to dominate engagement",
-        "Personalization at scale through automation"
+        "After losing Airbnb listings, Isaac shifted to direct bookings, highlighting the importance of owning customer data! *(731.1 sec)*",
+        "Isaac's Twitter threads showcase storytelling growth, attracting followers and converting them into loyal subscribers! *(2955.0 sec)*",
+        "Engaging content attracts customers and funds future projects, highlighting the compounding effect in hospitality! *(3616.9 sec)*",
+        "Personalized touches and high-quality design can turn guest experiences into deep connections and loyalty! *(1442.7 sec)*"
       ]
     },
     {
@@ -83,10 +83,10 @@ const Index = () => {
       summary: "How businesses can implement sustainable practices while maintaining profitability.",
       date: "2025-04-17",
       keyTakeaways: [
-        "Circular economy principles in business operations",
-        "Carbon footprint reduction strategies",
-        "Sustainable supply chain management",
-        "Green marketing and consumer engagement"
+        "Isaac designed Live Oak Lake for beauty and experience, with every detail planned to create breathtaking moments! *(549.5 sec)*",
+        "Elevating design aesthetics improves how businesses feel to customers—taste and design are crucial for success! *(1672.9 sec)*",
+        "Personalized touches and high-quality design can turn guest experiences into deep connections and loyalty! *(1442.7 sec)*",
+        "The family refurbished historic buildings in Deary, creating community spaces that reflect shared investment and pride! *(366.2 sec)*"
       ]
     }
   ];
@@ -142,9 +142,9 @@ const Index = () => {
                 placeholder="Search episodes..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full pl-10 pr-4 py-2 text-gray-900 rounded-lg border border-black-200"
+                className="w-full pl-10 pr-4 py-2 text-gray-900 rounded-lg border border-black-400"
               />
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-5 w-5" />
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-6 w-6" />
             </div>
             <div className="flex gap-2 transition-all duration-300">
               {!isSelectionMode ? (

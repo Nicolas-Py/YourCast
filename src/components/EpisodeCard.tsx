@@ -26,7 +26,7 @@ const EpisodeCard = ({ episode, isSelected, onSelect, isSelectable }: EpisodeCar
   const cardContent = (
     <Card 
       className={cn(
-        "relative overflow-hidden transition-all duration-300",
+        "relative overflow-hidden transition-all duration-300 shadow-lg hover:shadow-xl",
         isSelectable && "cursor-pointer hover:scale-[1.02]",
         isSelected && "ring-2 ring-primary ring-offset-2"
       )}

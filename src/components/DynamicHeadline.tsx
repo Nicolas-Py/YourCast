@@ -24,7 +24,7 @@ const DynamicHeadline = () => {
       timeout = setTimeout(() => {
         setIsPaused(false);
         setIsDeleting(true);
-      }, 3000);
+      }, 6000);
     } else if (!isDeleting) {
       if (currentIndex < currentWord.length) {
         timeout = setTimeout(() => {
@@ -53,7 +53,7 @@ const DynamicHeadline = () => {
   }, [currentIndex, isDeleting, currentWordIndex, isPaused]);
 
   return (
-    <h1 className="text-7xl font-bold serif-headline text-gray-900 mb-8 min-h-[120px]">
+    <h1 className="text-5xl font-bold serif-headline text-gray-900 mb-8 min-h-[120px]">
       {displayText}
       <span className="animate-pulse">|</span>
     </h1>
