@@ -1,4 +1,3 @@
-
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Circle } from "lucide-react";
 
@@ -16,9 +15,8 @@ const HostChip = ({ host, isSelected, onClick }: HostChipProps) => {
   return (
     <button
       onClick={onClick}
-      className={`flex items-center gap-2 px-2 py-1 rounded-full border transition-all duration-300 hover:border-purple-500 ${
-        isSelected ? 'border-purple-500 bg-purple-50' : 'border-gray-200 hover:bg-purple-50'
-      }`}
+      className={`flex items-center gap-2 px-2 py-1 rounded-full border border-black transition-all duration-300 
+        ${isSelected ? 'bg-card' : 'hover:bg-card'}`}
     >
       <Avatar className="w-8 h-8">
         <AvatarImage src={host.image} alt={host.name} />

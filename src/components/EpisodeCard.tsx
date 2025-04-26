@@ -44,7 +44,7 @@ const EpisodeCard = ({ episode, isSelected, onSelect, isSelectable }: EpisodeCar
           />
           <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
           <div className="absolute bottom-0 left-0 right-0 p-4">
-            <h3 className="font-semibold text-lg text-white mb-1">{episode.title}</h3>
+            <h3 className="font-semibold text-lg text-white mb-1 serif-headline">{episode.title}</h3>
             <p className="text-sm text-gray-300 mb-1">{episode.host}</p>
             <p className="text-xs text-gray-300">{episode.date}</p>
           </div>
