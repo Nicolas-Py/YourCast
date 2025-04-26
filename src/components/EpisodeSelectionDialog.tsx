@@ -38,7 +38,7 @@ const EpisodeSelectionDialog = ({ isOpen, onClose, onConfirm, selectedCount }: E
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="sm:max-w-md">
         <DialogHeader className="relative min-h-[200px]">
-        <div className="absolute inset-0 overflow-hidden -mx-6">
+        <div className="absolute inset-0 overflow-hidden -mx-6 -mt-6">
             <WaveAnimation 
               isAnimating={isAnimating}
               currentWaveIndex={waveIndex}
@@ -46,9 +46,9 @@ const EpisodeSelectionDialog = ({ isOpen, onClose, onConfirm, selectedCount }: E
               className="w-full h-full"
             />
           </div>
-          <div className="relative z-10 pt-8">
-            <DialogTitle>Confirm Selection</DialogTitle>
-            <DialogDescription>
+          <div className="relative z-10 px-6 pt-6 pb-4 text-center">
+            <DialogTitle className="text-2xl font-bold mb-3 text-white">Generate your personalized episode</DialogTitle>
+            <DialogDescription className="text-md opacity-90 text-white">
               You have selected {selectedCount} episode{selectedCount !== 1 ? 's' : ''}. Please select your preferences below.
             </DialogDescription>
           </div>

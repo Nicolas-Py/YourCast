@@ -74,7 +74,7 @@ const WaveAnimation: React.FC<WaveAnimationProps> = ({
             ref={morphRef}
             id="animMorph" 
             attributeName="d" 
-            dur="5s" 
+            dur="2s" 
             fill="freeze" 
           />
         </path>
