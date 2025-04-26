@@ -17,44 +17,6 @@
   background-size: 1000px 100%;
 }
 
-@keyframes wave {
-  0% {
-    transform: translateX(0) translateY(0);
-  }
-  50% {
-    transform: translateX(-25%) translateY(5px);
-  }
-  100% {
-    transform: translateX(0) translateY(0);
-  }
-}
-
-@keyframes wave-confirm {
-  0% {
-    transform: translateX(0) translateY(0);
-  }
-  25% {
-    transform: translateX(-25%) translateY(5px);
-  }
-  50% {
-    transform: translateX(0) translateY(0);
-  }
-  75% {
-    transform: translateX(25%) translateY(-5px);
-  }
-  100% {
-    transform: translateX(0) translateY(0);
-  }
-}
-
-.animate-wave {
-  animation: wave 3s ease-in-out infinite;
-}
-
-.animate-wave-confirm {
-  animation: wave-confirm 2s ease-in-out infinite;
-}
-
 @layer base {
   :root {
     --background: 0 0% 100%;
