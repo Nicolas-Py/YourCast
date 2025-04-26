@@ -13,7 +13,6 @@ const AudioPlayer = ({ defaultAudioUrl }: AudioPlayerProps) => {
     if (!file) return;
     setAudioUrl(URL.createObjectURL(file));
   };
-
   return (
     <div className="mb-8 bg-gray-50 rounded-lg p-6">
       <div className="flex flex-col gap-4">

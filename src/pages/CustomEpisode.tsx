@@ -3,9 +3,42 @@ import { Button } from "@/components/ui/button";
 import { BookmarkPlus } from "lucide-react";
 import { Link } from "react-router-dom";
 import AudioPlayer from "@/components/AudioPlayer";
+import { useEffect, useState } from "react";
 
 const CustomEpisode = () => {
   const { id } = useParams();
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    const generatePodcast = async () => {
+      try {
+        setIsLoading(true);
+        const response = await fetch('https://4a43-2001-4ca0-0-f233-4c6b-473c-197a-9a61.ngrok-free.app/generate-podcast', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ episodes }),
+        });
+
+        if (!response.ok) {
+          throw new Error('Failed to generate podcast');
+        }
+
+        const data = await response.json();
+        // Handle the response data here
+        console.log('Generated podcast data:', data);
+      } catch (err) {
+        setError(err instanceof Error ? err.message : 'An error occurred');
+        console.error('Error generating podcast:', err);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    generatePodcast();
+  }, []);
 
   // Placeholder data - would come from your API
   const episode = {
@@ -48,7 +81,68 @@ const CustomEpisode = () => {
       }
     ]
   };
-
+  const episodes = [
+    {
+      id: 1,
+      title: "The Future of AI",
+      host: "Tech Talks with Sarah",
+      hostId: "sarah123",
+      image: "https://images.unsplash.com/photo-1488590528505-98d2b5aba04b",
+      summary: "A fascinating discussion about artificial intelligence and its impact on society.",
+      date: "2025-04-20",
+      keyTakeaways: [
+        "Unexpected challenges led Isaac French from a suspended listing to a $7 million exit after a $2.3 million investment! *(0.0 sec)*",
+        "Isaac grew his social media from 5,000 to 150,000 followers, driving 80% of bookings for his micro-resort! *(22.7 sec)*",
+        "With compelling stories on Twitter, Isaac's content reached 100 million views, showcasing storytelling's power! *(37.9 sec)*",
+        "Learn the 'secret sauce' of virality—maximize shareability in your storytelling to boost brand outreach! *(58.2 sec)*"
+      ]
+    },
+    {
+      id: 2,
+      title: "Startup Success Stories",
+      host: "Entrepreneur Daily",
+      hostId: "entre101",
+      image: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158",
+      summary: "Learn from successful entrepreneurs about their journey to the top.",
+      date: "2025-04-19",
+      keyTakeaways: [
+        "Building businesses with family creates trust and shared goals, multiplying success beyond what individuals can achieve! *(512.1 sec)*",
+        "The family refurbished historic buildings in Deary, creating community spaces that reflect shared investment and pride! *(366.2 sec)*",
+        "Surround yourself with like-minded individuals for support; community fuels resilience and growth in entrepreneurship! *(4194.8 sec)*",
+        "Isaac's transparency in storytelling builds audience bonds, sharing both triumphs and trials from his entrepreneurial journey! *(3405.0 sec)*"
+      ]
+    },
+    {
+      id: 3,
+      title: "Digital Marketing Trends 2025",
+      host: "Tech Talks with Sarah",
+      hostId: "sarah123",
+      image: "https://images.unsplash.com/photo-1488590528505-98d2b5aba04b",
+      summary: "Exploring the latest trends and strategies in digital marketing.",
+      date: "2025-04-18",
+      keyTakeaways: [
+        "After losing Airbnb listings, Isaac shifted to direct bookings, highlighting the importance of owning customer data! *(731.1 sec)*",
+        "Isaac's Twitter threads showcase storytelling growth, attracting followers and converting them into loyal subscribers! *(2955.0 sec)*",
+        "Engaging content attracts customers and funds future projects, highlighting the compounding effect in hospitality! *(3616.9 sec)*",
+        "Personalized touches and high-quality design can turn guest experiences into deep connections and loyalty! *(1442.7 sec)*"
+      ]
+    },
+    {
+      id: 4,
+      title: "Sustainable Business Practices",
+      host: "Entrepreneur Daily",
+      hostId: "entre101",
+      image: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158",
+      summary: "How businesses can implement sustainable practices while maintaining profitability.",
+      date: "2025-04-17",
+      keyTakeaways: [
+        "Isaac designed Live Oak Lake for beauty and experience, with every detail planned to create breathtaking moments! *(549.5 sec)*",
+        "Elevating design aesthetics improves how businesses feel to customers—taste and design are crucial for success! *(1672.9 sec)*",
+        "Personalized touches and high-quality design can turn guest experiences into deep connections and loyalty! *(1442.7 sec)*",
+        "The family refurbished historic buildings in Deary, creating community spaces that reflect shared investment and pride! *(366.2 sec)*"
+      ]
+    }
+  ];
   return (
     <div className="container mx-auto px-4 py-8 max-w-6xl">
       <div className="bg-white rounded-lg shadow-lg overflow-hidden">
@@ -74,8 +168,6 @@ const CustomEpisode = () => {
         <div className="p-6">
           {/* Audio Player Section */}
           <AudioPlayer 
-            title={episode.title}
-            duration={episode.duration}
             defaultAudioUrl={episode.audioUrl}
           />
 

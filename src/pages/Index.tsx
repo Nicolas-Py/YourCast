@@ -9,6 +9,7 @@ import DynamicHeadline from "@/components/DynamicHeadline";
 
 const Index = () => {
   const [searchQuery, setSearchQuery] = useState("");
+  const [activeSearchQuery, setActiveSearchQuery] = useState("");
   const [selectedHosts, setSelectedHosts] = useState<string[]>([]);
   const [isSelectionMode, setIsSelectionMode] = useState(false);
   const [selectedEpisodes, setSelectedEpisodes] = useState<number[]>([]);
@@ -174,8 +175,8 @@ const Index = () => {
   };
 
   const filteredEpisodes = episodes.filter(episode => {
-    const matchesSearch = episode.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                         episode.summary.toLowerCase().includes(searchQuery.toLowerCase());
+    const matchesSearch = episode.title.toLowerCase().includes(activeSearchQuery.toLowerCase()) ||
+                         episode.summary.toLowerCase().includes(activeSearchQuery.toLowerCase());
     const matchesHost = selectedHosts.length === 0 || selectedHosts.includes(episode.hostId);
     return matchesSearch && matchesHost;
   });
@@ -192,6 +193,11 @@ const Index = () => {
                 placeholder="What are you interested in?"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter') {
+                    setActiveSearchQuery(searchQuery);
+                  }
+                }}
                 className="w-full pl-10 pr-4 py-2 text-gray-900 rounded-lg border-2 border-black-400 transition-all duration-300 ease-in-out focus:ring-2 focus:ring-primary focus:ring-opacity-50 focus:border-transparent"
               />
             </div>
