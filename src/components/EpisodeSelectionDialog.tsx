@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Check, X } from "lucide-react";
 import { useState } from "react";
 import { Label } from "@/components/ui/label";
+import WaveAnimation from './WaveAnimation';
 
 interface EpisodeSelectionDialogProps {
   isOpen: boolean;
@@ -16,16 +17,42 @@ const EpisodeSelectionDialog = ({ isOpen, onClose, onConfirm, selectedCount }: E
   const [tone, setTone] = useState<string>("neutral");
   const [style, setStyle] = useState<string>("single");
 
+  const [isAnimating, setIsAnimating] = useState(false);
+  const [waveIndex, setWaveIndex] = useState(0);
+
+  const handleWaveChange = () => {
+    setWaveIndex((prev) => (prev + 1) % 7); // 7 is the number of wave patterns
+  };
+
+  const handleSelectionChange = (setter: (value: string) => void, value: string) => {
+    setter(value);
+    handleWaveChange();
+  };
+
+  const handleGenerateAudio = () => {
+    setIsAnimating(true);
+    // onConfirm();
+  };
+
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="sm:max-w-md">
-        <DialogHeader>
-          <DialogTitle>Confirm Selection</DialogTitle>
-          <DialogDescription>
-            You have selected {selectedCount} episode{selectedCount !== 1 ? 's' : ''}. Please select your preferences below.
-          </DialogDescription>
+        <DialogHeader className="relative min-h-[200px]">
+          <div className="absolute inset-0 overflow-hidden -mx-6">
+            <WaveAnimation 
+              isAnimating={isAnimating}
+              currentWaveIndex={waveIndex}
+              onWaveChange={handleWaveChange}
+              className="w-full h-full"
+            />
+          </div>
+          <div className="relative z-10 pt-8">
+            <DialogTitle>Confirm Selection</DialogTitle>
+            <DialogDescription>
+              You have selected {selectedCount} episode{selectedCount !== 1 ? 's' : ''}. Please select your preferences below.
+            </DialogDescription>
+          </div>
         </DialogHeader>
-        
         <div className="space-y-6 py-4">
           <div className="space-y-2">
             <Label>Length</Label>
@@ -33,7 +60,7 @@ const EpisodeSelectionDialog = ({ isOpen, onClose, onConfirm, selectedCount }: E
               <Button
                 variant={length === "precise" ? "default" : "outline"}
                 size="sm"
-                onClick={() => setLength("precise")}
+                onClick={() => handleSelectionChange(setLength, "precise")}
                 className="rounded-full"
               >
                 Precise
@@ -41,7 +68,7 @@ const EpisodeSelectionDialog = ({ isOpen, onClose, onConfirm, selectedCount }: E
               <Button
                 variant={length === "elaborate" ? "default" : "outline"}
                 size="sm"
-                onClick={() => setLength("elaborate")}
+                onClick={() => handleSelectionChange(setLength, "elaborate")}
                 className="rounded-full"
               >
                 Elaborate
@@ -55,7 +82,7 @@ const EpisodeSelectionDialog = ({ isOpen, onClose, onConfirm, selectedCount }: E
               <Button
                 variant={tone === "neutral" ? "default" : "outline"}
                 size="sm"
-                onClick={() => setTone("neutral")}
+                onClick={() => handleSelectionChange(setTone, "neutral")}
                 className="rounded-full"
               >
                 Neutral
@@ -63,7 +90,7 @@ const EpisodeSelectionDialog = ({ isOpen, onClose, onConfirm, selectedCount }: E
               <Button
                 variant={tone === "funny" ? "default" : "outline"}
                 size="sm"
-                onClick={() => setTone("funny")}
+                onClick={() => handleSelectionChange(setTone, "funny")}
                 className="rounded-full"
               >
                 Funny
@@ -71,7 +98,7 @@ const EpisodeSelectionDialog = ({ isOpen, onClose, onConfirm, selectedCount }: E
               <Button
                 variant={tone === "professional" ? "default" : "outline"}
                 size="sm"
-                onClick={() => setTone("professional")}
+                onClick={() => handleSelectionChange(setTone, "professional")}
                 className="rounded-full"
               >
                 Professional
@@ -79,7 +106,7 @@ const EpisodeSelectionDialog = ({ isOpen, onClose, onConfirm, selectedCount }: E
               <Button
                 variant={tone === "easy" ? "default" : "outline"}
                 size="sm"
-                onClick={() => setTone("easy")}
+                onClick={() => handleSelectionChange(setTone, "easy")}
                 className="rounded-full"
               >
                 Easy Language
@@ -93,7 +120,7 @@ const EpisodeSelectionDialog = ({ isOpen, onClose, onConfirm, selectedCount }: E
               <Button
                 variant={style === "single" ? "default" : "outline"}
                 size="sm"
-                onClick={() => setStyle("single")}
+                onClick={() => handleSelectionChange(setStyle, "single")}
                 className="rounded-full"
               >
                 Single Reader
@@ -101,7 +128,7 @@ const EpisodeSelectionDialog = ({ isOpen, onClose, onConfirm, selectedCount }: E
               <Button
                 variant={style === "conversation" ? "default" : "outline"}
                 size="sm"
-                onClick={() => setStyle("conversation")}
+                onClick={() => handleSelectionChange(setStyle, "conversation")}
                 className="rounded-full"
               >
                 Conversation
@@ -115,7 +142,7 @@ const EpisodeSelectionDialog = ({ isOpen, onClose, onConfirm, selectedCount }: E
             <X className="mr-2 h-4 w-4" />
             Cancel
           </Button>
-          <Button onClick={onConfirm}>
+          <Button onClick={handleGenerateAudio}>
             <Check className="mr-2 h-4 w-4" />
             Generate Audio
           </Button>
