@@ -12,6 +12,7 @@ interface Episode {
   image: string;
   summary: string;
   date: string;
+  keyTakeaways?: string[];
 }
 
 interface EpisodeCardProps {
@@ -35,12 +36,18 @@ const EpisodeCard = ({ episode, isSelected, onSelect, isSelectable }: EpisodeCar
         <div className="absolute inset-0 bg-gradient-to-r from-primary/20 via-primary/10 to-primary/20 animate-shimmer" />
       )}
       <CardHeader className="p-0">
-        <div className="relative aspect-video">
+        <div className="relative aspect-[16/10]">
           <img
             src={episode.image}
             alt={episode.title}
             className="w-full h-full object-cover"
           />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
+          <div className="absolute bottom-0 left-0 right-0 p-4">
+            <h3 className="font-semibold text-lg text-white mb-1">{episode.title}</h3>
+            <p className="text-sm text-gray-300 mb-1">{episode.host}</p>
+            <p className="text-xs text-gray-300">{episode.date}</p>
+          </div>
           {isSelected && (
             <div className="absolute top-2 right-2 bg-primary/90 text-white p-1 rounded-full">
               <Check className="h-4 w-4" />
@@ -49,13 +56,21 @@ const EpisodeCard = ({ episode, isSelected, onSelect, isSelectable }: EpisodeCar
         </div>
       </CardHeader>
       <CardContent className="p-4">
-        <h3 className="font-semibold text-lg mb-2">{episode.title}</h3>
-        <p className="text-sm text-gray-500 mb-2">{episode.host}</p>
-        <p className="text-sm text-gray-600 line-clamp-2">{episode.summary}</p>
+        <p className="text-sm text-gray-600 mb-3">{episode.summary}</p>
+        {episode.keyTakeaways && episode.keyTakeaways.length > 0 && (
+          <div className="space-y-2">
+            <h4 className="text-sm font-medium text-gray-700">Key Takeaways:</h4>
+            <ul className="space-y-1">
+              {episode.keyTakeaways.map((takeaway, index) => (
+                <li key={index} className="text-sm text-gray-600 flex items-start gap-2">
+                  <Circle className="h-2 w-2 mt-2 text-primary" />
+                  <span>{takeaway}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
       </CardContent>
-      <CardFooter className="p-4 pt-0">
-        <p className="text-xs text-gray-400">{episode.date}</p>
-      </CardFooter>
     </Card>
   );
 

@@ -36,6 +36,12 @@ const Index = () => {
       image: "https://images.unsplash.com/photo-1488590528505-98d2b5aba04b",
       summary: "A fascinating discussion about artificial intelligence and its impact on society.",
       date: "2025-04-20",
+      keyTakeaways: [
+        "AI will transform healthcare through personalized medicine",
+        "Ethical considerations must guide AI development",
+        "The importance of human-AI collaboration in the workplace",
+        "Future job market shifts due to AI automation"
+      ]
     },
     {
       id: 2,
@@ -45,7 +51,43 @@ const Index = () => {
       image: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158",
       summary: "Learn from successful entrepreneurs about their journey to the top.",
       date: "2025-04-19",
+      keyTakeaways: [
+        "The importance of building a strong founding team",
+        "How to validate your business idea effectively",
+        "Strategies for securing early-stage funding",
+        "Building a sustainable company culture"
+      ]
     },
+    {
+      id: 3,
+      title: "Digital Marketing Trends 2025",
+      host: "Tech Talks with Sarah",
+      hostId: "sarah123",
+      image: "https://images.unsplash.com/photo-1488590528505-98d2b5aba04b",
+      summary: "Exploring the latest trends and strategies in digital marketing.",
+      date: "2025-04-18",
+      keyTakeaways: [
+        "The rise of AI-powered content creation",
+        "Importance of privacy-first marketing strategies",
+        "Video content continues to dominate engagement",
+        "Personalization at scale through automation"
+      ]
+    },
+    {
+      id: 4,
+      title: "Sustainable Business Practices",
+      host: "Entrepreneur Daily",
+      hostId: "entre101",
+      image: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158",
+      summary: "How businesses can implement sustainable practices while maintaining profitability.",
+      date: "2025-04-17",
+      keyTakeaways: [
+        "Circular economy principles in business operations",
+        "Carbon footprint reduction strategies",
+        "Sustainable supply chain management",
+        "Green marketing and consumer engagement"
+      ]
+    }
   ];
 
   const toggleHost = (hostId: string) => {
