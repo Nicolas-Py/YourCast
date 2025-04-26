@@ -30,17 +30,7 @@ const EpisodeCard = ({ episode }: { episode: Episode }) => {
           <h3 className="text-xl font-semibold text-gray-900 mb-2 group-hover:text-purple-700">
             {episode.title}
           </h3>
-          <Link 
-            to={`/host/${episode.hostId}`}
-            className="text-sm text-blue-600 hover:text-blue-800 mb-2 block"
-            onClick={(e) => {
-              e.preventDefault();
-              e.stopPropagation();
-              window.location.href = `/host/${episode.hostId}`;
-            }}
-          >
             {episode.host}
-          </Link>
           <p className="text-gray-600 text-sm line-clamp-2">{episode.summary}</p>
           <p className="text-gray-500 text-xs mt-2">
             {new Date(episode.date).toLocaleDateString()}
