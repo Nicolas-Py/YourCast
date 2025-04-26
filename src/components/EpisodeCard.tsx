@@ -1,6 +1,8 @@
 
 import { Link } from "react-router-dom";
 import { Card } from "@/components/ui/card";
+import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
+import { Circle } from "lucide-react";
 
 interface Episode {
   id: number;
@@ -15,12 +17,18 @@ interface Episode {
 const EpisodeCard = ({ episode }: { episode: Episode }) => {
   return (
     <Link to={`/episode/${episode.id}`}>
-      <Card className="overflow-hidden hover:shadow-lg transition-shadow duration-300">
-        <img 
-          src={episode.image} 
-          alt={episode.title} 
-          className="w-full h-48 object-cover"
-        />
+      <Card className="overflow-hidden hover:shadow-lg transition-shadow duration-300 relative">
+        <div className="absolute top-4 right-4 z-10">
+          <Avatar className="w-12 h-12 border-2 border-white shadow-sm">
+            <AvatarImage 
+              src={episode.image} 
+              alt={`${episode.title} logo`} 
+            />
+            <AvatarFallback>
+              <Circle className="h-6 w-6 text-gray-300" />
+            </AvatarFallback>
+          </Avatar>
+        </div>
         <div className="p-4">
           <h3 className="text-xl font-semibold text-gray-900 mb-2">{episode.title}</h3>
           <Link 
