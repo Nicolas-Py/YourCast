@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import EpisodeCard from "@/components/EpisodeCard";
 import HostChip from "@/components/HostChip";
 import EpisodeSelectionDialog from "@/components/EpisodeSelectionDialog";
+import DynamicHeadline from "@/components/DynamicHeadline";
 
 const Index = () => {
   const [searchQuery, setSearchQuery] = useState("");
@@ -132,7 +133,7 @@ const Index = () => {
   return (
     <div className="container mx-auto px-4 py-8 bg-background">
       <div className="flex flex-col items-center mb-12">
-        <h1 className="text-4xl font-bold serif-headline text-gray-900 mb-8">Discover</h1>
+        <DynamicHeadline />
         <div className="w-full max-w-xl space-y-4">
           <div className="flex items-center gap-4">
             <div className="relative flex-1">
