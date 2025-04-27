@@ -70,7 +70,9 @@ const Index = () => {
   // Filter episodes based on selected hosts
   const filteredEpisodes = episodes.filter(episode => {
     if (selectedHosts.length === 0) return true;
-    return selectedHosts.includes(episode.hostId);
+    // Convert episode host name to the same ID format as the hosts
+    const episodeHostId = episode.host.toLowerCase().replace(/\s+/g, '-');
+    return selectedHosts.includes(episodeHostId);
   });
 
   return (
