@@ -4,41 +4,84 @@ import { Check, X } from "lucide-react";
 import { useState } from "react";
 import { Label } from "@/components/ui/label";
 import WaveAnimation from './WaveAnimation';
+import { useNavigate } from "react-router-dom";
 
 interface EpisodeSelectionDialogProps {
   isOpen: boolean;
   onClose: () => void;
-  onConfirm: () => void;
   selectedCount: number;
+  data_sample: any[];
 }
 
-const EpisodeSelectionDialog = ({ isOpen, onClose, onConfirm, selectedCount }: EpisodeSelectionDialogProps) => {
+const EpisodeSelectionDialog = ({ isOpen, onClose, selectedCount, data_sample }: EpisodeSelectionDialogProps) => {
+  const navigate = useNavigate();
   const [length, setLength] = useState<string>("precise");
   const [tone, setTone] = useState<string>("neutral");
   const [style, setStyle] = useState<string>("single");
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   const [isAnimating, setIsAnimating] = useState(false);
   const [waveIndex, setWaveIndex] = useState(0);
 
   const handleWaveChange = () => {
-    setWaveIndex((prev) => (prev + 1) % 7); // 7 is the number of wave patterns
+    setWaveIndex((prev) => (prev + 1) % 7);
   };
 
   const handleSelectionChange = (setter: (value: string) => void, value: string) => {
     setter(value);
     handleWaveChange();
   };
-
-  const handleGenerateAudio = () => {
+ 
+  const handleGenerateAudio = async () => {
+    setIsLoading(true);
     setIsAnimating(true);
-    // onConfirm();
+    setError(null);
+
+    try {
+      const response = await fetch('http://0.0.0.0:8081/generate-podcast', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          length,
+          tone,
+          style,
+          data_sample
+        }),
+      });
+      console.log(JSON.stringify({
+        length,
+        tone,
+        style,
+        data_sample
+      }));
+      if (!response.ok) {
+        throw new Error('Failed to generate podcast');
+      }
+
+      const blob = await response.blob();
+      const url = URL.createObjectURL(blob);
+      
+      // Navigate to custom episode page with the blob URL
+      navigate(`/custom-episode/${Date.now()}`, { 
+        state: { audioUrl: url }
+      });
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'An error occurred');
+      console.error('Error generating podcast:', err);
+    } finally {
+      setIsLoading(false);
+      setIsAnimating(false);
+    }
   };
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="sm:max-w-md">
         <DialogHeader className="relative min-h-[200px]">
-        <div className="absolute inset-0 overflow-hidden -mx-6 -mt-6">
+          <div className="absolute inset-0 overflow-hidden -mx-6 -mt-6">
             <WaveAnimation 
               isAnimating={isAnimating}
               currentWaveIndex={waveIndex}
@@ -62,6 +105,7 @@ const EpisodeSelectionDialog = ({ isOpen, onClose, onConfirm, selectedCount }: E
                 size="sm"
                 onClick={() => handleSelectionChange(setLength, "precise")}
                 className="rounded-full"
+                disabled={isLoading}
               >
                 Precise
               </Button>
@@ -70,6 +114,7 @@ const EpisodeSelectionDialog = ({ isOpen, onClose, onConfirm, selectedCount }: E
                 size="sm"
                 onClick={() => handleSelectionChange(setLength, "elaborate")}
                 className="rounded-full"
+                disabled={isLoading}
               >
                 Elaborate
               </Button>
@@ -84,6 +129,7 @@ const EpisodeSelectionDialog = ({ isOpen, onClose, onConfirm, selectedCount }: E
                 size="sm"
                 onClick={() => handleSelectionChange(setTone, "neutral")}
                 className="rounded-full"
+                disabled={isLoading}
               >
                 Neutral
               </Button>
@@ -92,6 +138,7 @@ const EpisodeSelectionDialog = ({ isOpen, onClose, onConfirm, selectedCount }: E
                 size="sm"
                 onClick={() => handleSelectionChange(setTone, "funny")}
                 className="rounded-full"
+                disabled={isLoading}
               >
                 Funny
               </Button>
@@ -100,6 +147,7 @@ const EpisodeSelectionDialog = ({ isOpen, onClose, onConfirm, selectedCount }: E
                 size="sm"
                 onClick={() => handleSelectionChange(setTone, "professional")}
                 className="rounded-full"
+                disabled={isLoading}
               >
                 Professional
               </Button>
@@ -108,6 +156,7 @@ const EpisodeSelectionDialog = ({ isOpen, onClose, onConfirm, selectedCount }: E
                 size="sm"
                 onClick={() => handleSelectionChange(setTone, "easy")}
                 className="rounded-full"
+                disabled={isLoading}
               >
                 Easy Language
               </Button>
@@ -122,6 +171,7 @@ const EpisodeSelectionDialog = ({ isOpen, onClose, onConfirm, selectedCount }: E
                 size="sm"
                 onClick={() => handleSelectionChange(setStyle, "single")}
                 className="rounded-full"
+                disabled={isLoading}
               >
                 Single Reader
               </Button>
@@ -130,23 +180,29 @@ const EpisodeSelectionDialog = ({ isOpen, onClose, onConfirm, selectedCount }: E
                 size="sm"
                 onClick={() => handleSelectionChange(setStyle, "conversation")}
                 className="rounded-full"
+                disabled={isLoading}
               >
                 Conversation
               </Button>
             </div>
           </div>
+
+          {error && (
+            <div className="text-red-500 text-sm mt-2">
+              {error}
+            </div>
+          )}
         </div>
 
         <DialogFooter className="flex gap-2">
-          <Button variant="outline" onClick={onClose}>
+          <Button variant="outline" onClick={onClose} disabled={isLoading}>
             <X className="mr-2 h-4 w-4" />
             Cancel
           </Button>
-          <Button onClick={handleGenerateAudio}>
+          <Button onClick={handleGenerateAudio} disabled={isLoading}>
             <Check className="mr-2 h-4 w-4" />
-            Generate Audio
+            {isLoading ? 'Generating...' : 'Generate Audio'}
           </Button>
-          
         </DialogFooter>
       </DialogContent>
     </Dialog>

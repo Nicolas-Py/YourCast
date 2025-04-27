@@ -158,13 +158,6 @@ const Index = () => {
     );
   };
 
-  const handleConfirmSelection = () => {
-    // Handle the confirmed selection here
-    console.log("Selected episodes:", selectedEpisodes);
-    setIsDialogOpen(false);
-    resetSelectionState();
-  };
-
   const resetSelectionState = () => {
     setIsSelectionMode(false);
     setSelectedEpisodes([]);
@@ -257,8 +250,8 @@ const Index = () => {
       <EpisodeSelectionDialog
         isOpen={isDialogOpen}
         onClose={() => setIsDialogOpen(false)}
-        onConfirm={handleConfirmSelection}
         selectedCount={selectedEpisodes.length}
+        data_sample={episodes}
       />
     </div>
   );
