@@ -94,6 +94,7 @@ const Index = () => {
         ? prev.filter((id) => id !== episodeId)
         : [...prev, episodeId]
     );
+    console.log(selectedEpisodes);
   };
 
   const resetSelectionState = () => {
@@ -198,7 +199,7 @@ const Index = () => {
         isOpen={isDialogOpen}
         onClose={() => setIsDialogOpen(false)}
         selectedCount={selectedEpisodes.length}
-        data_sample={episodes}
+        data_sample={selectedEpisodes.map((id) => episodes.find((episode) => episode.id === id))}
       />
     </div>
   );
