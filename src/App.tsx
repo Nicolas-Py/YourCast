@@ -23,7 +23,7 @@ const App = () => (
           <Route path="/" element={<Index />} />
           <Route path="/episode/:id" element={<Episode />} />
           <Route path="/host/:id" element={<Host />} />
-          <Route path="/custom-episode/:id" element={<CustomEpisode />} />
+          <Route path="/custom-episode" element={<CustomEpisode />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>

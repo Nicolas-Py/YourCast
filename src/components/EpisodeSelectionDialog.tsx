@@ -5,6 +5,7 @@ import { useState } from "react";
 import { Label } from "@/components/ui/label";
 import WaveAnimation from './WaveAnimation';
 import { useNavigate } from "react-router-dom";
+import { generatePodcast } from '@/utils/api';
 
 interface EpisodeSelectionDialogProps {
   isOpen: boolean;
@@ -38,6 +39,7 @@ const EpisodeSelectionDialog = ({ isOpen, onClose, selectedCount, data_sample }:
     setIsAnimating(true);
     setError(null);
 
+
     try {
       const response = await fetch('http://0.0.0.0:8081/generate-podcast', {
         method: 'POST',
@@ -48,25 +50,32 @@ const EpisodeSelectionDialog = ({ isOpen, onClose, selectedCount, data_sample }:
           length,
           tone,
           style,
-          data_sample
+          data_sample: data_sample.map(episode => ({
+            ...episode,
+            id: 9,
+            keyTakeaways: episode.keyTakeaways?.map(point => point.text) || []
+          }))
         }),
       });
-      console.log(JSON.stringify({
-        length,
-        tone,
-        style,
-        data_sample
-      }));
       if (!response.ok) {
         throw new Error('Failed to generate podcast');
       }
-
+      console.log('response', response);
       const blob = await response.blob();
+      // const audioBlob = new Blob([blob], { type: 'audio/mpeg' });
+      // console.log('blob', audioBlob);
       const url = URL.createObjectURL(blob);
-      
-      // Navigate to custom episode page with the blob URL
-      navigate(`/custom-episode/${Date.now()}`, { 
-        state: { audioUrl: url }
+      localStorage.setItem('audioUrl', url);
+
+      navigate('/custom-episode/', {
+        state: { 
+          audioUrl: url,
+          audioFilename: 'custom-episode.mp3', 
+          length: length,
+          tone: tone,
+          style: style,
+          data_sample: data_sample
+        }
       });
     } catch (err) {
       setError(err instanceof Error ? err.message : 'An error occurred');

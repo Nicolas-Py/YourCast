@@ -1,4 +1,4 @@
-import { useParams, useLocation } from "react-router-dom";
+import { useParams, useLocation, Navigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { BookmarkPlus } from "lucide-react";
 import { Link } from "react-router-dom";
@@ -7,9 +7,55 @@ import AudioPlayer from "@/components/AudioPlayer";
 const CustomEpisode = () => {
   const { id } = useParams();
   const location = useLocation();
-  const audioUrl = location.state?.audioUrl;
+
+  console.log('location', location.state);
+  // If no audioUrl is available, redirect back to home
+  if (!location.state?.audioUrl) {
+    return <Navigate to="/" replace />;
+  }
+
+  const { audioUrl, audioFilename } = location.state;
+  
+
+
+  // const length = location.state?.length;
+  // const tone = location.state?.tone;
+  // const style = location.state?.style;
+  // const data_sample = location.state?.data_sample;
+
+
+
+  // const fetchEpisode = async () => {
+  //   const response = await fetch('http://0.0.0.0:8081/generate-podcast-metadata', {
+  //     method: 'POST',
+  //     body: JSON.stringify({
+  //         length,
+  //         tone,
+  //         style,
+  //         data_sample: data_sample.map(episode => ({
+  //         ...episode,
+  //         id: 9,
+  //         keyTakeaways: episode.keyTakeaways?.map(point => point.text) || []
+  //       }))
+  //     }),
+  //   });
+
+  //   if (!response.ok) {
+  //     throw new Error('Failed to generate podcast');
+  //   }
+
+  //   const data = await response.json();
+  //   console.log(data);
+  //   return data;
+
+  // }
+
+
+  // fetchEpisode();
 
   // Placeholder data - would come from your API
+
+
   const episode = {
     id: 1,
     title: "Your Personalized Episode",
@@ -54,7 +100,7 @@ const CustomEpisode = () => {
         <div className="p-6">
           {/* Audio Player Section */}
           <AudioPlayer 
-            defaultAudioUrl={audioUrl}
+            audioUrl={audioUrl}
           />
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">

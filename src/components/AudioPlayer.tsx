@@ -1,11 +1,10 @@
 import { useRef, useState } from "react";
 
 interface AudioPlayerProps {
-  defaultAudioUrl?: string;
+  audioUrl?: string;
 }
 
-const AudioPlayer = ({ defaultAudioUrl }: AudioPlayerProps) => {
-  const [audioUrl, setAudioUrl] = useState<string | null>(null);
+const AudioPlayer = ({ audioUrl }: AudioPlayerProps) => {
   const audioRef = useRef<HTMLAudioElement>(null);
 
   return (
@@ -13,7 +12,7 @@ const AudioPlayer = ({ defaultAudioUrl }: AudioPlayerProps) => {
       <div className="flex flex-col gap-4">
         <audio
           ref={audioRef}
-          src={audioUrl || defaultAudioUrl}
+          src={audioUrl}
           controls
           className="w-full"
         />
