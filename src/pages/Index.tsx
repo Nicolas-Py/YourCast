@@ -8,6 +8,8 @@ import EpisodeSelectionDialog from "@/components/EpisodeSelectionDialog";
 import DynamicHeadline from "@/components/DynamicHeadline";
 import { Episode } from "@/components/EpisodeCard";
 import axios from "axios";
+import podcastImages from "@/../public/podcast_images.json";
+
 const Index = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedHosts, setSelectedHosts] = useState<string[]>([]);
@@ -16,69 +18,12 @@ const Index = () => {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [episodes, setEpisodes] = useState<Episode[]>([]);
 
-  // Placeholder data - this would come from your API
-  const hosts = [
-    {
-      id: "sarah123",
-      name: "Tech Talks with Sarah",
-      image: "https://images.unsplash.com/photo-1488590528505-98d2b5aba04b",
-    },
-    {
-      id: "entre101",
-      name: "Entrepreneur Daily",
-      image: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158",
-    },
-    {
-      id: "marketing2025",
-      name: "Marketing Insights 2025",
-      image: "https://images.unsplash.com/photo-1551434678-e076c223a692",
-    },
-    {
-      id: "aiweekly",
-      name: "AI Weekly Digest",
-      image: "https://images.unsplash.com/photo-1516321318423-f06f85e504b3",
-    },
-    {
-      id: "startupstories",
-      name: "Startup Success Stories",
-      image: "https://images.unsplash.com/photo-1522071820081-009f0129c71c",
-    },
-    {
-      id: "futuretech",
-      name: "Future Tech Today",
-      image: "https://images.unsplash.com/photo-1518770660439-4636190af475",
-    },
-    {
-      id: "businessinsights",
-      name: "Business Insights Daily",
-      image: "https://images.unsplash.com/photo-1552664730-d307ca884978",
-    },
-    {
-      id: "digitalnomad",
-      name: "Digital Nomad Life",
-      image: "https://images.unsplash.com/photo-1507679799987-c73779587ccf",
-    },
-    {
-      id: "productivity",
-      name: "Productivity Hacks",
-      image: "https://images.unsplash.com/photo-1516321497487-e288fb19713f",
-    },
-    {
-      id: "innovation",
-      name: "Innovation Station",
-      image: "https://images.unsplash.com/photo-1504384308090-c894fdcc538d",
-    },
-    {
-      id: "leadership",
-      name: "Leadership Lessons",
-      image: "https://images.unsplash.com/photo-1543269865-cbf427effbad",
-    },
-    {
-      id: "remotework",
-      name: "Remote Work Revolution",
-      image: "https://images.unsplash.com/photo-1516321318423-f06f85e504b3",
-    },
-  ];
+  // Convert podcast images JSON to the required format
+  const hosts = Object.entries(podcastImages).map(([name, image]) => ({
+    id: name.toLowerCase().replace(/\s+/g, '-'),
+    name,
+    image,
+  }));
 
   const toggleHost = (hostId: string) => {
     setSelectedHosts((prev) =>
@@ -121,6 +66,12 @@ const Index = () => {
       throw error;
     }
   }
+
+  // Filter episodes based on selected hosts
+  const filteredEpisodes = episodes.filter(episode => {
+    if (selectedHosts.length === 0) return true;
+    return selectedHosts.includes(episode.hostId);
+  });
 
   return (
     <div className="container mx-auto px-4 py-8 bg-background">
@@ -184,7 +135,7 @@ const Index = () => {
       </div>
 
       <div className="columns-1 md:columns-2 lg:columns-3 gap-6 space-y-6">
-        {episodes.map((episode) => (
+        {filteredEpisodes.map((episode) => (
           <div key={episode.id} className="mb-6 break-inside-avoid">
             <EpisodeCard
               episode={episode}
