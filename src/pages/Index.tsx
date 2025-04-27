@@ -19,11 +19,20 @@ const Index = () => {
   const [episodes, setEpisodes] = useState<Episode[]>([]);
 
   // Convert podcast images JSON to the required format
-  const hosts = Object.entries(podcastImages).map(([name, image]) => ({
+  const allHosts = Object.entries(podcastImages).map(([name, image]) => ({
     id: name.toLowerCase().replace(/\s+/g, '-'),
     name,
     image,
   }));
+
+  // Filter hosts to only include those with episodes, or use all hosts if episodes is empty
+  const availableHosts = episodes.length > 0 
+    ? allHosts.filter(host => 
+        episodes.some(episode => 
+          episode.host.toLowerCase().replace(/\s+/g, '-') === host.id
+        )
+      )
+    : allHosts;
 
   const toggleHost = (hostId: string) => {
     setSelectedHosts((prev) =>
@@ -129,9 +138,10 @@ const Index = () => {
             </div>
           </div>
           <HostChipsContainer
-            hosts={hosts}
+            hosts={availableHosts}
             selectedHosts={selectedHosts}
             onHostToggle={toggleHost}
+            isPlaceholder={episodes.length === 0}
           />
         </div>
       </div>
