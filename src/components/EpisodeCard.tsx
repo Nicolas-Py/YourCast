@@ -1,18 +1,28 @@
 import { Link } from "react-router-dom";
-import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardFooter,
+  CardHeader,
+} from "@/components/ui/card";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { Circle, Check } from "lucide-react";
 import { cn } from "@/lib/utils";
 
-interface Episode {
-  id: number;
+export interface BulletPoint {
+  text: string;
+  timestamp: number;
+}
+
+export interface Episode {
+  id: string;
   title: string;
   host: string;
   hostId: string;
   image: string;
   summary: string;
   date: string;
-  keyTakeaways?: string[];
+  keyTakeaways?: BulletPoint[];
 }
 
 interface EpisodeCardProps {
@@ -22,9 +32,14 @@ interface EpisodeCardProps {
   isSelectable?: boolean;
 }
 
-const EpisodeCard = ({ episode, isSelected, onSelect, isSelectable }: EpisodeCardProps) => {
+const EpisodeCard = ({
+  episode,
+  isSelected,
+  onSelect,
+  isSelectable,
+}: EpisodeCardProps) => {
   const cardContent = (
-    <Card 
+    <Card
       className={cn(
         "relative overflow-hidden transition-all duration-300 shadow-lg hover:shadow-xl",
         isSelectable && "cursor-pointer hover:scale-[1.02]",
@@ -44,7 +59,9 @@ const EpisodeCard = ({ episode, isSelected, onSelect, isSelectable }: EpisodeCar
           />
           <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
           <div className="absolute bottom-0 left-0 right-0 p-4">
-            <h3 className="font-semibold text-lg text-white mb-1 serif-headline">{episode.title}</h3>
+            <h3 className="font-semibold text-lg text-white mb-1 serif-headline">
+              {episode.title}
+            </h3>
             <p className="text-sm text-gray-300 mb-1">{episode.host}</p>
             <p className="text-xs text-gray-300">{episode.date}</p>
           </div>
@@ -59,12 +76,17 @@ const EpisodeCard = ({ episode, isSelected, onSelect, isSelectable }: EpisodeCar
         <p className="text-sm text-gray-600 mb-3">{episode.summary}</p>
         {episode.keyTakeaways && episode.keyTakeaways.length > 0 && (
           <div className="space-y-2">
-            <h4 className="text-sm font-medium text-gray-700">Key Takeaways:</h4>
+            <h4 className="text-sm font-medium text-gray-700">
+              Key Takeaways:
+            </h4>
             <ul className="space-y-1">
               {episode.keyTakeaways.map((takeaway, index) => (
-                <li key={index} className="text-sm text-gray-600 flex items-start gap-2">
+                <li
+                  key={index}
+                  className="text-sm text-gray-600 flex items-start gap-2"
+                >
                   <Circle className="h-2 w-2 mt-2 text-primary" />
-                  <span>{takeaway}</span>
+                  <span>{takeaway.text}</span>
                 </li>
               ))}
             </ul>
@@ -79,11 +101,7 @@ const EpisodeCard = ({ episode, isSelected, onSelect, isSelectable }: EpisodeCar
     return cardContent;
   }
 
-  return (
-    <Link to={`/episode/${episode.id}`}>
-      {cardContent}
-    </Link>
-  );
+  return <Link to={`/episode/${episode.id}`}>{cardContent}</Link>;
 };
 
 export default EpisodeCard;
