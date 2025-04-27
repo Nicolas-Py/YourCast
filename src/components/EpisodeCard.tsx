@@ -23,6 +23,19 @@ export interface Episode {
   summary: string;
   date: string;
   keyTakeaways?: BulletPoint[];
+  category?: string;
+  platformLinks?: {
+    spotify?: string;
+    youtube?: string;
+    apple?: string;
+    google?: string;
+  };
+  similarEpisodes?: Array<{
+    id: string;
+    title: string;
+    thumbnail: string;
+    teaser: string;
+  }>;
 }
 
 interface EpisodeCardProps {
@@ -101,7 +114,7 @@ const EpisodeCard = ({
     return cardContent;
   }
 
-  return <Link to={`/episode/${episode.id}`}>{cardContent}</Link>;
+  return <Link to={`/episode/${episode.id}`} state={{ episode }}>{cardContent}</Link>;
 };
 
 export default EpisodeCard;

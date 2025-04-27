@@ -1,11 +1,9 @@
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
-import { Check, X } from "lucide-react";
-import { useState } from "react";
+import { Check, X, Download } from "lucide-react";
+import { useState, useEffect } from "react";
 import { Label } from "@/components/ui/label";
 import WaveAnimation from './WaveAnimation';
-import { useNavigate } from "react-router-dom";
-import { generatePodcast } from '@/utils/api';
 
 interface EpisodeSelectionDialogProps {
   isOpen: boolean;
@@ -15,13 +13,12 @@ interface EpisodeSelectionDialogProps {
 }
 
 const EpisodeSelectionDialog = ({ isOpen, onClose, selectedCount, data_sample }: EpisodeSelectionDialogProps) => {
-  const navigate = useNavigate();
   const [length, setLength] = useState<string>("precise");
   const [tone, setTone] = useState<string>("neutral");
   const [style, setStyle] = useState<string>("single");
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-
+  const [audioUrl, setAudioUrl] = useState<string | null>(null);
   const [isAnimating, setIsAnimating] = useState(false);
   const [waveIndex, setWaveIndex] = useState(0);
 
@@ -33,13 +30,8 @@ const EpisodeSelectionDialog = ({ isOpen, onClose, selectedCount, data_sample }:
     setter(value);
     handleWaveChange();
   };
- 
-  const handleGenerateAudio = async () => {
-    setIsLoading(true);
-    setIsAnimating(true);
-    setError(null);
 
-
+  const generateAudio = async () => {
     try {
       const response = await fetch('http://0.0.0.0:8081/generate-podcast', {
         method: 'POST',
@@ -57,26 +49,27 @@ const EpisodeSelectionDialog = ({ isOpen, onClose, selectedCount, data_sample }:
           }))
         }),
       });
-      if (!response.ok) {
-        throw new Error('Failed to generate podcast');
-      }
-      console.log('response', response);
-      const blob = await response.blob();
-      // const audioBlob = new Blob([blob], { type: 'audio/mpeg' });
-      // console.log('blob', audioBlob);
-      const url = URL.createObjectURL(blob);
-      localStorage.setItem('audioUrl', url);
 
-      navigate('/custom-episode/', {
-        state: { 
-          audioUrl: url,
-          audioFilename: 'custom-episode.mp3', 
-          length: length,
-          tone: tone,
-          style: style,
-          data_sample: data_sample
-        }
-      });
+      if (!response.ok) {
+        throw new Error(`Failed to generate podcast: ${response.status}`);
+      }
+
+      const blob = await response.blob();
+      const url = URL.createObjectURL(blob);
+      setAudioUrl(url);
+      return url;
+    } catch (err) {
+      throw new Error(err instanceof Error ? err.message : 'Failed to generate audio');
+    }
+  };
+
+  const handleGenerateAudio = async () => {
+    setIsLoading(true);
+    setIsAnimating(true);
+    setError(null);
+
+    try {
+      await generateAudio();
     } catch (err) {
       setError(err instanceof Error ? err.message : 'An error occurred');
       console.error('Error generating podcast:', err);
@@ -85,6 +78,15 @@ const EpisodeSelectionDialog = ({ isOpen, onClose, selectedCount, data_sample }:
       setIsAnimating(false);
     }
   };
+
+  // Cleanup function to revoke object URLs
+  useEffect(() => {
+    return () => {
+      if (audioUrl) {
+        URL.revokeObjectURL(audioUrl);
+      }
+    };
+  }, [audioUrl]);
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
@@ -208,10 +210,21 @@ const EpisodeSelectionDialog = ({ isOpen, onClose, selectedCount, data_sample }:
             <X className="mr-2 h-4 w-4" />
             Cancel
           </Button>
-          <Button onClick={handleGenerateAudio} disabled={isLoading}>
-            <Check className="mr-2 h-4 w-4" />
-            {isLoading ? 'Generating...' : 'Generate Audio'}
-          </Button>
+          {audioUrl ? (
+            <a
+              href={audioUrl}
+              download="custom-episode.mp3"
+              className="inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground hover:bg-primary/90 h-10 px-4 py-2"
+            >
+              <Download className="mr-2 h-4 w-4" />
+              Download Audio
+            </a>
+          ) : (
+            <Button onClick={handleGenerateAudio} disabled={isLoading}>
+              <Check className="mr-2 h-4 w-4" />
+              {isLoading ? 'Generating...' : 'Generate Audio'}
+            </Button>
+          )}
         </DialogFooter>
       </DialogContent>
     </Dialog>
