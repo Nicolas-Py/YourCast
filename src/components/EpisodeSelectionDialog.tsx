@@ -1,18 +1,42 @@
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter } from "@/components/ui/dialog";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
+  DialogFooter,
+} from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Check, X, Download } from "lucide-react";
 import { useState, useEffect } from "react";
 import { Label } from "@/components/ui/label";
-import WaveAnimation from './WaveAnimation';
+import WaveAnimation from "./WaveAnimation";
+
+interface KeyTakeaway {
+  text: string;
+}
+
+interface Episode {
+  id?: number;
+  title?: string;
+  description?: string;
+  keyTakeaways?: KeyTakeaway[];
+  [key: string]: any; // For any other properties that might exist
+}
 
 interface EpisodeSelectionDialogProps {
   isOpen: boolean;
   onClose: () => void;
   selectedCount: number;
-  data_sample: any[];
+  data_sample: Episode[];
 }
 
-const EpisodeSelectionDialog = ({ isOpen, onClose, selectedCount, data_sample }: EpisodeSelectionDialogProps) => {
+const EpisodeSelectionDialog = ({
+  isOpen,
+  onClose,
+  selectedCount,
+  data_sample,
+}: EpisodeSelectionDialogProps) => {
   const [length, setLength] = useState<string>("precise");
   const [tone, setTone] = useState<string>("neutral");
   const [style, setStyle] = useState<string>("single");
@@ -26,27 +50,31 @@ const EpisodeSelectionDialog = ({ isOpen, onClose, selectedCount, data_sample }:
     setWaveIndex((prev) => (prev + 1) % 7);
   };
 
-  const handleSelectionChange = (setter: (value: string) => void, value: string) => {
+  const handleSelectionChange = (
+    setter: (value: string) => void,
+    value: string
+  ) => {
     setter(value);
     handleWaveChange();
   };
 
   const generateAudio = async () => {
     try {
-      const response = await fetch('http://0.0.0.0:8081/generate-podcast', {
-        method: 'POST',
+      const response = await fetch("http://0.0.0.0:8000/summary_audio", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({
           length,
           tone,
           style,
-          data_sample: data_sample.map(episode => ({
+          data_sample: data_sample.map((episode) => ({
             ...episode,
             id: 9,
-            keyTakeaways: episode.keyTakeaways?.map(point => point.text) || []
-          }))
+            keyTakeaways:
+              episode.keyTakeaways?.map((point) => point.text) || [],
+          })),
         }),
       });
 
@@ -59,7 +87,9 @@ const EpisodeSelectionDialog = ({ isOpen, onClose, selectedCount, data_sample }:
       setAudioUrl(url);
       return url;
     } catch (err) {
-      throw new Error(err instanceof Error ? err.message : 'Failed to generate audio');
+      throw new Error(
+        err instanceof Error ? err.message : "Failed to generate audio"
+      );
     }
   };
 
@@ -71,8 +101,8 @@ const EpisodeSelectionDialog = ({ isOpen, onClose, selectedCount, data_sample }:
     try {
       await generateAudio();
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'An error occurred');
-      console.error('Error generating podcast:', err);
+      setError(err instanceof Error ? err.message : "An error occurred");
+      console.error("Error generating podcast:", err);
     } finally {
       setIsLoading(false);
       setIsAnimating(false);
@@ -93,7 +123,7 @@ const EpisodeSelectionDialog = ({ isOpen, onClose, selectedCount, data_sample }:
       <DialogContent className="sm:max-w-md">
         <DialogHeader className="relative min-h-[200px]">
           <div className="absolute inset-0 overflow-hidden -mx-6 -mt-6">
-            <WaveAnimation 
+            <WaveAnimation
               isAnimating={isAnimating}
               currentWaveIndex={waveIndex}
               onWaveChange={handleWaveChange}
@@ -101,9 +131,13 @@ const EpisodeSelectionDialog = ({ isOpen, onClose, selectedCount, data_sample }:
             />
           </div>
           <div className="relative z-10 px-6 pt-6 pb-4 text-center">
-            <DialogTitle className="text-2xl font-bold mb-3 text-white">Generate your personalized episode</DialogTitle>
+            <DialogTitle className="text-2xl font-bold mb-3 text-white">
+              Generate your personalized episode
+            </DialogTitle>
             <DialogDescription className="text-md opacity-90 text-white">
-              You have selected {selectedCount} episode{selectedCount !== 1 ? 's' : ''}. Please select your preferences below.
+              You have selected {selectedCount} episode
+              {selectedCount !== 1 ? "s" : ""}. Please select your preferences
+              below.
             </DialogDescription>
           </div>
         </DialogHeader>
@@ -198,11 +232,7 @@ const EpisodeSelectionDialog = ({ isOpen, onClose, selectedCount, data_sample }:
             </div>
           </div>
 
-          {error && (
-            <div className="text-red-500 text-sm mt-2">
-              {error}
-            </div>
-          )}
+          {error && <div className="text-red-500 text-sm mt-2">{error}</div>}
         </div>
 
         <DialogFooter className="flex gap-2">
@@ -222,7 +252,7 @@ const EpisodeSelectionDialog = ({ isOpen, onClose, selectedCount, data_sample }:
           ) : (
             <Button onClick={handleGenerateAudio} disabled={isLoading}>
               <Check className="mr-2 h-4 w-4" />
-              {isLoading ? 'Generating...' : 'Generate Audio'}
+              {isLoading ? "Generating..." : "Generate Audio"}
             </Button>
           )}
         </DialogFooter>
@@ -231,4 +261,4 @@ const EpisodeSelectionDialog = ({ isOpen, onClose, selectedCount, data_sample }:
   );
 };
 
-export default EpisodeSelectionDialog; 
+export default EpisodeSelectionDialog;
