@@ -1,3 +1,4 @@
+# ⚠️ Project moved to a diffrent [repo](https://github.com/neuromaxer/yourcast)
 # YourCast 🎙️
 
 ## The Problem: Information Overload in the Podcast Era
